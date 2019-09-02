@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ICVU 2019</title>
+    <link rel="stylesheet" type="text/css" href="../estilo.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <meta charset="utf-8">
+    <style>
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    canvas {
+        display: block;
+    }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="revistas.html">REVISTAS UTE</a>
+        <a href="icvu.html" class="actual">ICVU 2019</a>
+        <a href="psu.html">PSU/NEM</a>
+        <a href="desempleo.html">DESEMPLEO</a>
+        <a href="cglobal.html" >CALENTAMIENTO GLOBAL</a>
+    </nav>
+</body>
+<script>
+var factor = 200;
+var cont = 450;
+var totales = {
+    'c_labs': [44.76, 86.35],
+    'negocios': [4.12, 72.17],
+    'c_soc': [4.66, 52.27],
+    'conec': [62.03, 88.8],
+    's_medio': [36.38, 88.02],
+    'v_ent': [11.84, 86.46]
+}
+var comunas = [
+    { com: "Vitacura", data: [86.35, 72.17, 56.45, 82.77, 65.56, 84.67] },
+    { com: "Maipú", data: [72.82, 26.44, 45.18, 82.66, 49.65, 46.13, 55.87] },
+    { com: "La Pintana", data: [48.13, 4.12, 4.66, 66.79, 63.6, 22.59, 38.08] }
+]
+console.log(totales);
+console.log(comunas);
+function setup() {
+    createCanvas(windowWidth, windowHeight);
+    selector = createSelect();
+    selector.position(width - 150, 20);
+    selector.option('Vitacura', 0);
+    selector.option('Maipú', 1);
+    selector.option('La Pintana', 2);
+    selector.changed(este);
+    noLoop();
+    textAlign(CENTER);
+    text("Condiciones Laborales", 400, height - 100, 100);
+    text("Ambiente de negocios", 600, height - 100, 100);
+    text("Condiciones Socioculturales", 800, height - 100, 100);
+    text("Conectividad y Movilidad", 1000, height - 100, 100);
+    text("Salud y Medioambiente", 1200, height - 100, 100);
+    text("Vivienda y entorno", 1400, height - 100, 100);
+    for (var x = 0; x < 6; x++) {
+        textAlign(CENTER);
+        textSize(12);
+        text(totales[x], 250 + (x * 125), height - 400, 150);
+    }
+    noStroke();
+    fill(200, 0, 0);
+    for (var y = 0; y < 2; y++) {
+        text(totales.c_labs[y], 475, height - totales.c_labs[y] * 8 - factor + 3);
+        ellipse(450, height - totales.c_labs[y] * 8 - factor, 5);
+        text(totales.negocios[y], 675, height - totales.negocios[y] * 8 - factor + 3);
+        ellipse(650, height - totales.negocios[y] * 8 - factor, 5);
+        text(totales.c_soc[y], 875, height - totales.c_soc[y] * 8 - factor + 3);
+        ellipse(850, height - totales.c_soc[y] * 8 - factor, 5);
+        text(totales.conec[y], 1075, height - totales.conec[y] * 8 - factor + 3);
+        ellipse(1050, height - totales.conec[y] * 8 - factor, 5);
+        text(totales.s_medio[y], 1275, height - totales.s_medio[y] * 8 - factor + 3);
+        ellipse(1250, height - totales.s_medio[y] * 8 - factor, 5);
+        text(totales.v_ent[y], 1475, height - totales.v_ent[y] * 8 - factor + 3);
+        ellipse(1450, height - totales.v_ent[y] * 8 - factor, 5)
+    }
+    stroke(4);
+    noFill();
+}
+function draw() {
+    var opcion = selector.value();
+    beginShape();
+    if (opcion == 0) {
+        text('Vitacura', 100, 100);
+        for (var k = 0; k < 6; k++) {
+            vertex(cont, height - comunas[0].data[k] * 8 - factor);
+            cont += 200;
+        }
+        cont = 450;
+    } else if (opcion == 1) {
+        text('Maipú', 100, 100);
+        for (var k = 0; k < 6; k++) {
+            vertex(cont, height - comunas[1].data[k] * 8 - factor);
+            cont += 200;
+        }
+        cont = 450;
+    } else {
+        text('La Pintana', 100, 100);
+        for (var k = 0; k < 6; k++) {
+            vertex(cont, height - comunas[2].data[k] * 8 - factor);
+            cont += 200;
+        }
+        cont = 450;
+    }
+    endShape();
+}
+function este() {
+    clear();
+    redraw();
+    text("Condiciones Laborales", 400, height - 100, 100);
+    text("Ambiente de negocios", 600, height - 100, 100);
+    text("Condiciones Socioculturales", 800, height - 100, 100);
+    text("Conectividad y Movilidad", 1000, height - 100, 100);
+    text("Salud y Medioambiente", 1200, height - 100, 100);
+    text("Vivienda y entorno", 1400, height - 100, 100);
+    noStroke();
+    fill(200, 0, 0);
+    for (var y = 0; y < 2; y++) {
+        text(totales.c_labs[y], 475, height - totales.c_labs[y] * 8 - factor + 3);
+        ellipse(450, height - totales.c_labs[y] * 8 - factor, 5);
+        text(totales.negocios[y], 675, height - totales.negocios[y] * 8 - factor + 3);
+        ellipse(650, height - totales.negocios[y] * 8 - factor, 5);
+        text(totales.c_soc[y], 875, height - totales.c_soc[y] * 8 - factor + 3);
+        ellipse(850, height - totales.c_soc[y] * 8 - factor, 5);
+        text(totales.conec[y], 1075, height - totales.conec[y] * 8 - factor + 3);
+        ellipse(1050, height - totales.conec[y] * 8 - factor, 5);
+        text(totales.s_medio[y], 1275, height - totales.s_medio[y] * 8 - factor + 3);
+        ellipse(1250, height - totales.s_medio[y] * 8 - factor, 5);
+        text(totales.v_ent[y], 1475, height - totales.v_ent[y] * 8 - factor + 3);
+        ellipse(1450, height - totales.v_ent[y] * 8 - factor, 5)
+    }
+    stroke(4);
+    noFill();
+    
+}
+</script>
+
+</html>

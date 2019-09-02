@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>REVISTAS UTE</title>
+    <link rel="stylesheet" type="text/css" href="../estilo.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <meta charset="utf-8">
+    <style>
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    canvas {
+        display: block;
+    }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="revistas.html" class="actual">REVISTAS UTE</a>
+        <a href="icvu.html">ICVU 2019</a>
+        <a href="psu.html">PSU/NEM</a>
+        <a href="desempleo.html">DESEMPLEO</a>
+        <a href="cglobal.html">CALENTAMIENTO GLOBAL</a>
+    </nav>
+</body>
+<script>
+var data;
+var cont = 0;
+var factor;
+var fijos = {
+    "entradas": ['Educativa', 'Política/Ideológica', 'Económica/Productiva', 'Científica/Tecnológica', 'Cultural', 'Territorial/Cono Sur'],
+    "indole": ['UTE', 'Nacional', 'Latinoamerica', 'Internacional'],
+    "tipo": ['Editorial', 'Ensayo', 'Documentos', 'Notas Bibliográficas', 'Crónica Universitaria']
+}
+
+function preload() {
+    data = loadJSON('https://api.myjson.com/bins/110sl7');
+    console.log(data);
+    console.log(fijos);
+
+}
+
+function setup() {
+    createCanvas(windowWidth, windowHeight);
+    selector = createSelect();
+    selector.position(width - 150, 20);
+    selector.option('Entradas', 0);
+    selector.option('Índole', 1);
+    selector.option('Tipo de artículo', 2);
+    selector.changed(este);
+    noLoop();
+
+    for (var x = 0; x < 12; x++) {
+        textAlign(CENTER);
+        textSize(12);
+        text(data[x].rev, 250 + (x * 125), height - 400, 150);
+        textSize(10);
+        text(data[x].fecha, 250 + (x * 125), height - 380, 150);
+        textAlign(LEFT);
+        foto = createImg(data[x].img);
+        foto.hide();
+        image(foto, 270 + (x * 125), height - 300, 100, 150);
+            }
+        }
+
+function draw() {
+    var opcion = selector.value();
+    textStyle(BOLD);
+    textSize(25);
+    textAlign(LEFT);
+    noStroke();
+
+
+
+    if (opcion == 0) {
+        fill(0,0,0);
+        text('ENTRADAS', 100, 100);
+        textStyle(NORMAL);
+        textSize(12);
+        for (var i = 0; i < 6; i++) {
+            text(fijos.entradas[i], 100, 180 + (40 * i), 120);
+        }
+        fill(60, 200, 0);
+        for (var k = 0; k < 12; k++) {
+            for (var i = 0; i < 6; i++) {
+                console.log(data[k].entradas[i]);
+                rect(280 + (125 * k), 180 + (40 * i), (data[k].entradas[i]) * 10, 25);
+                text(data[k].entradas[i], 285 + (125 * k)+(data[k].entradas[i]) * 10 , 195 + (40 * i));
+
+                }
+            }
+
+
+    } else if (opcion == 1) {
+        fill(0,0,0);
+        text('ÍNDOLE', 100, 100);
+        textStyle(NORMAL);
+        textSize(12);
+        for (var i = 0; i < 6; i++) {
+            text(fijos.indole[i], 100, 180 + (40 * i));
+        }
+        fill(200, 0, 0);
+        for (var k = 0; k < 12; k++) {
+            for (var i = 0; i < 6; i++) {
+                console.log(data[k].indole[i]);
+                rect(280 + (125 * k), 165 + (40 * i), (data[k].indole[i]) * 10, 25);
+                text(data[k].indole[i], 285 + (125 * k)+(data[k].indole[i]) * 10 , 185 + (40 * i));
+
+            }
+        }
+
+    } else {
+        fill(0,0,0);
+        text('TIPO DE ARTÍCULO', 100, 100);
+        textStyle(NORMAL);
+        textSize(12);
+        for (var i = 0; i < 5; i++) {
+            text(fijos.tipo[i], 100, 180 + (40 * i));
+        }
+        fill(0, 30, 200);
+        for (var k = 0; k < 12; k++) {
+            for (var i = 0; i < 6; i++) {
+                console.log(data[k].tipo[i]);
+                rect(280 + (125 * k), 165 + (40 * i), (data[k].tipo[i]) * 10, 25);
+                text(data[k].tipo[i], 285 + (125 * k)+(data[k].tipo[i]) * 10 , 185 + (40 * i));
+                    }
+                }
+            }
+        }
+
+
+function este() {
+    clear();
+    redraw();
+    fill(0,0,0);
+    for (var x = 0; x < 12; x++) {
+        textAlign(CENTER);
+        textSize(12);
+        text(data[x].rev, 250 + (x * 125), height - 400, 150);
+        textSize(9);
+        text(data[x].fecha, 250 + (x * 125), height - 380, 150);
+        foto = createImg(data[x].img);
+        foto.hide();
+        image(foto, 280 + (x * 125), height - 300, 100, 150);
+
+    }
+}
+</script>
+
+</html>
